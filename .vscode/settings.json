@@ -1,0 +1,11 @@
+{
+  "cSpell.words": [
+    "Nuxt",
+  ],
+  "material-icon-theme.folders.associations": {
+    "composables": "Hook",
+    ".nuxt": "Nuxt",
+    ".scaffdog": "Config",
+    "_base": "Base",
+  },
+}
