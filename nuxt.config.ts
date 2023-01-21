@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     },
     manifest: {
       theme_color: 'black',
+      start_url: 'projects',
     },
     meta: {
       appleStatusBarStyle: true,
