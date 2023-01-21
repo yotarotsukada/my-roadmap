@@ -1,16 +1,13 @@
-type Mountain = {
-  name: string;
-  height: string;
-};
+import { z } from 'zod';
 
-const convert = (data: any[]): Mountain[] => {
-  return data.map((item) => ({
-    name: item.title,
-    height: item.height,
-  }));
-};
+const mountainSchema = z.object({
+  title: z.string(),
+  height: z.string(),
+});
+
+export type Mountain = z.infer<typeof mountainSchema>;
 
 export const useMountainData = async () => {
   const url = 'https://api.nuxtjs.dev/mountains';
-  return await useCustomFetch(url, convert);
+  return await useCustomFetch(url, 'mountains', mountainSchema.array());
 };

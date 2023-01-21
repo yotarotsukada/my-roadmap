@@ -27,7 +27,7 @@ const { data, pending, refresh } = await useMountainData();
       </div>
       <div v-else class="mountains">
         <div v-for="(mountain, i) in data" :key="i" class="card">
-          <h4 v-if="data">{{ mountain.name }}</h4>
+          <h4 v-if="data">{{ mountain.title }}</h4>
           <p v-if="data">{{ mountain.height }}</p>
         </div>
       </div>
