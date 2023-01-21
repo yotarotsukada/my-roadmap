@@ -1,0 +1,42 @@
+export const mockTasks = [
+  {
+    id: 't01',
+    status: 'Done',
+    title: '参考書の第1章を読む',
+    description: '章末テストはやらない',
+    dueDate: new Date('2023-02-01'),
+    createdAt: new Date('2023-01-18'),
+  },
+  {
+    id: 't02',
+    status: 'Done',
+    title: '参考書の第1章を読む',
+    description: '章末テストはやらない',
+    dueDate: new Date('2023-02-02'),
+    createdAt: new Date('2023-01-18'),
+  },
+  {
+    id: 't03',
+    status: 'Todo',
+    title: '参考書の第3章を読む',
+    description: '章末テストはやらない',
+    dueDate: new Date('2023-02-03'),
+    createdAt: new Date('2023-01-18'),
+  },
+  {
+    id: 't04',
+    status: 'Todo',
+    title: '参考書の第4章を読む',
+    description: '章末テストはやらない',
+    dueDate: new Date('2023-02-04'),
+    createdAt: new Date('2023-01-18'),
+  },
+  {
+    id: 't05',
+    status: 'Todo',
+    title: '参考書の第5章を読む',
+    description: '章末テストはやらない',
+    dueDate: new Date('2023-02-05'),
+    createdAt: new Date('2023-01-18'),
+  },
+];
