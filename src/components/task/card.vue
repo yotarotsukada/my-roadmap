@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MazCard from 'maz-ui/components/MazCard';
-import { Task } from '~~/src/composables/useTask';
+import { Task } from '~~/src/schema';
+
 defineProps<{
   task: Task;
 }>();

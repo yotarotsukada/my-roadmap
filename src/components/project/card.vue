@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MazCard from 'maz-ui/components/MazCard';
-import { Project } from '~~/src/composables/useProject.js';
+import { Project } from '~~/src/schema';
+
 defineProps<{
   project: Project;
 }>();

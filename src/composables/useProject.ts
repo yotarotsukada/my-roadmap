@@ -1,28 +1,22 @@
 import { z } from 'zod';
-
-const projectSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  goal: z.string(),
-  description: z.string().optional(),
-  dueDate: z
-    .string()
-    .datetime()
-    .transform((str) => new Date(str)),
-  createdAt: z
-    .string()
-    .datetime()
-    .transform((str) => new Date(str)),
-});
-
-export type Project = z.infer<typeof projectSchema>;
+import { projectSchema, taskSchema } from '../schema';
 
 export const useFindAllProjects = async () => {
-  const url = 'https://api/projects';
-  return await useCustomFetch(url, 'projects', projectSchema.array());
+  const url = 'projects';
+  return await useCustomFetch(
+    url,
+    z.object({
+      projects: projectSchema.array(),
+    })
+  );
 };
 
 export const useFindOneProject = async (id: string) => {
-  const url = `https://api/projects/${id}`;
-  return await useCustomFetch(url, ['projects', id], projectSchema);
+  const url = `projects/${id}`;
+  return await useCustomFetch(
+    url,
+    z.object({
+      project: projectSchema.merge(z.object({ tasks: taskSchema.array() })),
+    })
+  );
 };

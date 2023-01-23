@@ -14,6 +14,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       MSW: process.env.MSW,
+      HASURA_SECRET: process.env.HASURA_SECRET,
     },
   },
   srcDir: './src',
@@ -25,6 +26,7 @@ export default defineNuxtConfig({
     },
     manifest: {
       theme_color: 'black',
+      start_url: 'projects',
     },
     meta: {
       appleStatusBarStyle: true,
