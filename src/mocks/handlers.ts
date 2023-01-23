@@ -12,16 +12,15 @@ const timeout = async (ms = 0) => {
 };
 
 export const handlers = [
-  rest.get('https://api/projects', async (_req, res, ctx) => {
+  rest.get('projects', async (_req, res, ctx) => {
     await timeout();
-    return res(ctx.status(200), ctx.json(mockProjects));
+    return res(ctx.status(200), ctx.json({ projects: mockProjects }));
   }),
-  rest.get('https://api/projects/:id', async (_req, res, ctx) => {
+  rest.get('projects/:id', async (_req, res, ctx) => {
     await timeout();
-    return res(ctx.status(200), ctx.json(mockProjects[0]));
-  }),
-  rest.get('https://api/tasks/:projectId', async (_req, res, ctx) => {
-    await timeout();
-    return res(ctx.status(200), ctx.json(mockTasks));
+    return res(
+      ctx.status(200),
+      ctx.json({ project: { ...mockProjects[0], tasks: mockTasks } })
+    );
   }),
 ];

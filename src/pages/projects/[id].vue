@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { TaskStatus } from '~~/src/composables/useTask';
+import { TaskStatus } from '~~/src/schema';
 
 const route = useRoute();
 const id = route.params.id as string;
-const { data: project } = await useFindOneProject(id);
-const { data: tasks } = await useFindTasksByProjectId(id);
+
+const { data } = await useFindOneProject(id);
+const project = computed(() => data.value?.project);
+const tasks = computed(() => project.value?.tasks);
 
 const isTaskDone = (task: { status: TaskStatus }) => {
   return task.status === 'Done';
@@ -19,14 +21,25 @@ const isProjectDone = computed(
 
 // TODO 変更の保存は未実装
 const handleToggle = (id: string) => {
-  tasks.value =
+  if (!data.value) {
+    return;
+  }
+
+  const modified =
     tasks.value?.map((task) => {
       if (task.id !== id) {
         return task;
       }
       const status: TaskStatus = isTaskDone(task) ? 'Todo' : 'Done';
       return { ...task, status };
-    }) ?? null;
+    }) ?? [];
+
+  data.value = {
+    project: {
+      ...data.value.project,
+      tasks: modified,
+    },
+  };
 };
 </script>
 

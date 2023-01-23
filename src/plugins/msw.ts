@@ -1,12 +1,18 @@
 export default defineNuxtPlugin(async () => {
-  const config = useRuntimeConfig();
-  // if (process.env.NODE_ENV === 'development') {
-  const disableMSW =
-    config.MSW === 'false' || config.MSW === 'FALSE' || config.MSW === '0';
-  if (disableMSW) {
-    return;
+  const { MSW } = useRuntimeConfig();
+  if (process.env.NODE_ENV === 'development') {
+    const disableMSW = MSW === 'false';
+    if (disableMSW) {
+      return;
+    }
+    const { worker } = await import('@/mocks/browser');
+    worker.start({
+      onUnhandledRequest: (req, print) => {
+        if (req.url.pathname.startsWith('/_nuxt/')) {
+          return;
+        }
+        print.warning();
+      },
+    });
   }
-  const { worker } = await import('@/mocks/browser');
-  worker.start();
-  // }
 });
