@@ -13,7 +13,9 @@ export const useCustomFetch = <T>(
   const fetcher = () =>
     $fetch(path, {
       baseURL:
-        MSW === 'false' ? 'https://corgi-todo.hasura.app/api/rest/' : undefined,
+        !MSW || MSW === 'false'
+          ? 'https://corgi-todo.hasura.app/api/rest/'
+          : undefined,
       headers: {
         'content-type': 'application/json',
         'x-hasura-admin-secret': HASURA_SECRET,
