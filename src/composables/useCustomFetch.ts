@@ -9,11 +9,13 @@ export const useCustomFetch = <T>(
   },
   keys: string | string[] = path
 ) => {
-  const { MSW, HASURA_SECRET } = useRuntimeConfig();
+  const { NODE_ENV, MSW, HASURA_SECRET } = useRuntimeConfig();
   const fetcher = () =>
     $fetch(path, {
       baseURL:
-        MSW === 'false' ? 'https://corgi-todo.hasura.app/api/rest/' : undefined,
+        NODE_ENV === 'production' || MSW === 'false'
+          ? 'https://corgi-todo.hasura.app/api/rest/'
+          : undefined,
       headers: {
         'content-type': 'application/json',
         'x-hasura-admin-secret': HASURA_SECRET,
