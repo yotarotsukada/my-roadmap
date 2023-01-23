@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   modules: ['@kevinmarrec/nuxt-pwa'],
   runtimeConfig: {
     public: {
+      NODE_ENV: process.env.NODE_ENV,
       MSW: process.env.MSW,
       HASURA_SECRET: process.env.HASURA_SECRET,
     },
