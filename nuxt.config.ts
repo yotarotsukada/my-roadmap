@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       NODE_ENV: process.env.NODE_ENV,
-      MSW: process.env.MSW,
+      MSW: process.env.MSW ?? 'true',
       HASURA_SECRET: process.env.HASURA_SECRET,
     },
   },

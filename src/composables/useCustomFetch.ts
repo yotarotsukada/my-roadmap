@@ -13,7 +13,7 @@ export const useCustomFetch = <T>(
   const fetcher = () =>
     $fetch(path, {
       baseURL:
-        NODE_ENV === 'production' || MSW === 'false'
+        NODE_ENV !== 'development' || MSW === 'false'
           ? 'https://corgi-todo.hasura.app/api/rest/'
           : undefined,
       headers: {
