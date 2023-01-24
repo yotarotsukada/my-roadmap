@@ -2,14 +2,15 @@
 import { Ref } from 'vue';
 
 defineProps<{
-  error: Ref<boolean>;
+  error: Ref<Error | null>;
   pending: Ref<boolean>;
 }>();
 </script>
 
 <template>
   <template v-if="error.value">
-    <p>Error occurred</p>
+    <h3>Error occurred</h3>
+    <p>{{ error.value.stack ?? error.value.message }}</p>
   </template>
   <template v-else-if="pending.value">
     <p>Loading...</p>

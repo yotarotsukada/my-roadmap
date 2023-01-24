@@ -4,8 +4,8 @@ import { TaskStatus } from '~~/src/schema';
 const route = useRoute();
 const id = route.params.id as string;
 
-const { data } = await useFindOneProject(id);
-const project = computed(() => data.value?.project);
+const result = await useFindOneProject(id);
+const project = computed(() => result.data.value?.project);
 const tasks = computed(() => project.value?.tasks);
 
 const isTaskDone = (task: { status: TaskStatus }) => {
@@ -21,7 +21,7 @@ const isProjectDone = computed(
 
 // TODO 変更の保存は未実装
 const handleToggle = (id: string) => {
-  if (!data.value) {
+  if (!result.data.value) {
     return;
   }
 
@@ -34,9 +34,9 @@ const handleToggle = (id: string) => {
       return { ...task, status };
     }) ?? [];
 
-  data.value = {
+  result.data.value = {
     project: {
-      ...data.value.project,
+      ...result.data.value.project,
       tasks: modified,
     },
   };
@@ -44,7 +44,7 @@ const handleToggle = (id: string) => {
 </script>
 
 <template>
-  <div>
+  <Fallback v-bind="result">
     <div v-if="project" class="screen">
       <h2>{{ project.title }}</h2>
       <h3>プロジェクト情報</h3>
@@ -71,7 +71,7 @@ const handleToggle = (id: string) => {
         </div>
       </div>
     </div>
-  </div>
+  </Fallback>
 </template>
 
 <style scoped lang="scss">
