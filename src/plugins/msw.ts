@@ -1,9 +1,9 @@
 export default defineNuxtPlugin(async () => {
   const { NODE_ENV, MSW } = useRuntimeConfig();
-  const disableMSW = NODE_ENV === 'development' && MSW === 'false';
-  if (disableMSW) {
+  if (NODE_ENV !== 'development' || MSW === 'false') {
     return;
   }
+
   const { worker } = await import('@/mocks/browser');
   worker.start({
     onUnhandledRequest: (req, print) => {
