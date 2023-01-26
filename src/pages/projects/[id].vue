@@ -19,19 +19,23 @@ const isProjectDone = computed(
   () => tasks.value?.length && tasks.value.length === doneCount.value
 );
 
-// TODO 変更の保存は未実装
-const handleToggle = (id: string) => {
+const handleToggle = async (id: string) => {
   if (!result.data.value) {
     return;
   }
 
+  const task = tasks.value?.find((task) => task.id === id);
+  if (!task) {
+    throw new Error('Task not found');
+  }
+
+  const toggled: TaskStatus = isTaskDone(task) ? 'Todo' : 'Done';
   const modified =
     tasks.value?.map((task) => {
       if (task.id !== id) {
         return task;
       }
-      const status: TaskStatus = isTaskDone(task) ? 'Todo' : 'Done';
-      return { ...task, status };
+      return { ...task, status: toggled };
     }) ?? [];
 
   result.data.value = {
@@ -40,6 +44,14 @@ const handleToggle = (id: string) => {
       tasks: modified,
     },
   };
+  await useModifyTaskStatus(id, toggled);
+};
+
+const saveDescription = async () => {
+  if (!project.value) {
+    return;
+  }
+  await useModifyProject(id, project.value);
 };
 </script>
 
@@ -55,7 +67,7 @@ const handleToggle = (id: string) => {
         <p>{{ project.goal }}</p>
         <template v-if="project.description">
           <h4>詳細</h4>
-          <textarea v-model="project.description" />
+          <textarea v-model="project.description" @blur="saveDescription" />
         </template>
       </div>
       <h3>タスク</h3>

@@ -4,6 +4,7 @@ import { Ref } from 'vue';
 defineProps<{
   error: Ref<Error | null>;
   pending: Ref<boolean>;
+  data: Ref;
 }>();
 </script>
 
@@ -12,7 +13,7 @@ defineProps<{
     <h3>Error occurred</h3>
     <p>{{ error.value.stack ?? error.value.message }}</p>
   </template>
-  <template v-else-if="pending.value">
+  <template v-else-if="!data.value && pending.value">
     <p>Loading...</p>
   </template>
   <template v-else>
