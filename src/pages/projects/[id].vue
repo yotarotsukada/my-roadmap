@@ -4,6 +4,8 @@ import { TaskStatus } from '~~/src/schema';
 const route = useRoute();
 const id = route.params.id as string;
 
+const router = useRouter();
+
 const result = await useFindOneProject(id);
 const project = computed(() => result.data.value?.project);
 const tasks = computed(() => project.value?.tasks);
@@ -19,19 +21,23 @@ const isProjectDone = computed(
   () => tasks.value?.length && tasks.value.length === doneCount.value
 );
 
-// TODO 変更の保存は未実装
-const handleToggle = (id: string) => {
+const handleToggle = async (id: string) => {
   if (!result.data.value) {
     return;
   }
 
+  const task = tasks.value?.find((task) => task.id === id);
+  if (!task) {
+    throw new Error('Task not found');
+  }
+
+  const toggled: TaskStatus = isTaskDone(task) ? 'Todo' : 'Done';
   const modified =
     tasks.value?.map((task) => {
       if (task.id !== id) {
         return task;
       }
-      const status: TaskStatus = isTaskDone(task) ? 'Todo' : 'Done';
-      return { ...task, status };
+      return { ...task, status: toggled };
     }) ?? [];
 
   result.data.value = {
@@ -40,6 +46,47 @@ const handleToggle = (id: string) => {
       tasks: modified,
     },
   };
+  await useModifyTaskStatus(id, toggled);
+};
+
+const saveDescription = async () => {
+  if (!project.value) {
+    return;
+  }
+  await useModifyProject(id, project.value);
+};
+
+const modalVisible = computed(() => route.query.mode === 'create');
+
+const openModal = () => {
+  if (modalVisible.value) {
+    return;
+  }
+  router.push({ query: { mode: 'create' } });
+};
+
+const closeModal = () => {
+  if (!modalVisible.value) {
+    return;
+  }
+  router.push({ query: { mode: undefined } });
+  resetInput();
+};
+
+const taskTitle = ref('');
+const dueDate = ref('2023-01-01');
+const description = ref('');
+
+const resetInput = () => {
+  taskTitle.value = '';
+  description.value = '';
+};
+
+const handleRegister = async (e: Event) => {
+  e.preventDefault();
+  await useRegisterTask(description.value, dueDate.value, taskTitle.value, id);
+  closeModal();
+  result.refresh();
 };
 </script>
 
@@ -55,15 +102,18 @@ const handleToggle = (id: string) => {
         <p>{{ project.goal }}</p>
         <template v-if="project.description">
           <h4>詳細</h4>
-          <textarea v-model="project.description" />
+          <BaseTextarea v-model="project.description" @blur="saveDescription" />
         </template>
       </div>
       <h3>タスク</h3>
       <div v-if="tasks">
-        <p>
-          {{ doneCount }} / {{ tasks.length }} 完了
-          <span v-if="isProjectDone">🎉</span>
-        </p>
+        <div class="row">
+          <p>
+            {{ doneCount }} / {{ tasks.length }} 完了
+            <span v-if="isProjectDone">🎉</span>
+          </p>
+          <BaseButton size="sm" @click="openModal">追加</BaseButton>
+        </div>
         <div class="tasks">
           <div v-for="task in tasks" :key="task.id">
             <TaskCard :task="task" @toggle="handleToggle" />
@@ -72,6 +122,32 @@ const handleToggle = (id: string) => {
       </div>
     </div>
   </Fallback>
+  <BaseModal
+    v-model="modalVisible"
+    :show="modalVisible"
+    title="新規タスク"
+    @close="closeModal"
+  >
+    <form class="modal" action="" @submit="(e) => handleRegister(e)">
+      <div class="input">
+        <div>
+          <label for="title">タイトル</label>
+          <BaseInput id="title" v-model="taskTitle" required />
+        </div>
+        <div>
+          <label for="due-date">期限</label>
+          <BaseInput id="due-date" v-model="dueDate" required type="date" />
+        </div>
+        <div>
+          <label for="description">詳細</label>
+          <BaseTextarea id="description" v-model="description" />
+        </div>
+      </div>
+      <div>
+        <BaseButton type="submit">登録</BaseButton>
+      </div>
+    </form>
+  </BaseModal>
 </template>
 
 <style scoped lang="scss">
@@ -85,17 +161,28 @@ const handleToggle = (id: string) => {
   flex-direction: column;
   gap: 8px;
 }
-textarea {
-  height: 160px;
-  padding: 16px;
-  line-height: 1.6rem;
-  background-color: #eeeeee;
-  resize: none;
-}
 .tasks {
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 16px 0;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 320px;
+  padding-right: 16px;
+  margin-right: -16px;
+  overflow-y: scroll;
+}
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 </style>

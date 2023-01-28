@@ -2,10 +2,8 @@
 import MazCard from 'maz-ui/components/MazCard';
 import { Task } from '~~/src/schema';
 
-defineProps<{
-  task: Task;
-}>();
-defineEmits(['toggle']);
+defineProps<{ task: Task }>();
+defineEmits<{ (event: 'toggle', id: string): void }>();
 </script>
 
 <template>

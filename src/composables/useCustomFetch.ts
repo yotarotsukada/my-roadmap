@@ -4,10 +4,10 @@ export const useCustomFetch = <T>(
   path: string,
   schema: z.ZodType<T, z.ZodTypeDef, any>,
   options?: {
-    method?: 'get' | 'post' | 'put' | 'delete';
+    method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
     body?: Record<string, any>;
   },
-  keys: string | string[] = path
+  keys: string | string[] = [options?.method ?? 'GET', path]
 ) => {
   const { NODE_ENV, MSW, HASURA_SECRET } = useRuntimeConfig();
   const fetcher = () =>
