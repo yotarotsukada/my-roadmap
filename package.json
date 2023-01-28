@@ -39,6 +39,7 @@
     "workerDirectory": "public"
   },
   "dependencies": {
+    "dayjs": "^1.11.7",
     "maz-ui": "^3.6.7",
     "ress": "^5.0.2",
     "zod": "^3.20.2"

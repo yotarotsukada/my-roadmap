@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import MazBtn from 'maz-ui/components/MazBtn';
+import MazTextarea from 'maz-ui/components/MazTextarea';
 </script>
 
 <template>
-  <MazBtn>
-    <slot>Click</slot>
-  </MazBtn>
+  <MazTextarea class="textarea" />
 </template>
 
 <style scoped lang="scss"></style>

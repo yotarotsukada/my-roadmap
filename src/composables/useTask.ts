@@ -14,3 +14,27 @@ export const useModifyTaskStatus = async (id: string, status: TaskStatus) => {
     }
   );
 };
+
+export const useRegisterTask = async (
+  description: string,
+  dueDate: string,
+  title: string,
+  projectId: string
+) => {
+  const url = 'tasks';
+  return await useCustomFetch(
+    url,
+    z.object({
+      success: z.object({ id: z.string() }),
+    }),
+    {
+      method: 'POST',
+      body: {
+        description,
+        dueDate,
+        title,
+        projectId,
+      },
+    }
+  );
+};

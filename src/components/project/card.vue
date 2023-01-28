@@ -2,9 +2,7 @@
 import MazCard from 'maz-ui/components/MazCard';
 import { Project } from '~~/src/schema';
 
-defineProps<{
-  project: Project;
-}>();
+defineProps<{ project: Project }>();
 </script>
 
 <template>
