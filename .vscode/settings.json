@@ -8,4 +8,5 @@
     ".scaffdog": "Config",
     "_base": "Base",
   },
+  "typescript.tsdk": "node_modules/typescript/lib",
 }
