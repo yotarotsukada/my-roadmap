@@ -26,7 +26,7 @@ export const useModifyProject = async (id: string, project: Project) => {
   return await useCustomFetch(
     url,
     z.object({
-      success: z.object({ id: z.string() }),
+      project: projectSchema.merge(z.object({ tasks: taskSchema.array() })),
     }),
     {
       method: 'POST',

@@ -7,7 +7,7 @@ export const useCustomFetch = <T>(
     method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
     body?: Record<string, any>;
   },
-  keys: string | string[] = [options?.method ?? 'GET', path]
+  keys: string | string[] = path
 ) => {
   const { NODE_ENV, MSW, HASURA_SECRET } = useRuntimeConfig();
   const fetcher = () =>
