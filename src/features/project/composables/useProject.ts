@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { Project, projectSchema, taskSchema } from '../schema';
+import { taskSchema } from '../../task';
+import { Project, projectSchema } from '../schema';
 
 export const useFindAllProjects = async () => {
   const url = 'projects';

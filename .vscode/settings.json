@@ -7,6 +7,7 @@
     ".nuxt": "Nuxt",
     ".scaffdog": "Config",
     "_base": "Base",
+    "features": "Class",
   },
   "typescript.tsdk": "node_modules/typescript/lib",
 }

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useFindAllProjects } from '~~/src/features/project';
+
 const result = await useFindAllProjects();
 const projects = computed(() => result.data.value?.projects);
 </script>
