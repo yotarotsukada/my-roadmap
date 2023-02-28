@@ -1,7 +1,7 @@
 <template>
   <div class="screen">
     <header>
-      <RouterLink to="/projects">
+      <RouterLink to="/">
         <h1>corgi todo</h1>
       </RouterLink>
     </header>

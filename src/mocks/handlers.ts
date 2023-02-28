@@ -1,7 +1,7 @@
 // src/mocks/handlers.js
 import { rest } from 'msw';
-import { mockProjects } from './data/projects';
-import { mockTasks } from './data/tasks';
+import { mockProjects } from '../features/project';
+import { mockTasks } from '../features/task';
 
 const timeout = async (ms = 0) => {
   await new Promise((resolve) => {

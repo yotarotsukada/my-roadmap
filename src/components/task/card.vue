@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MazCard from 'maz-ui/components/MazCard';
-import { Task } from '~~/src/schema';
+import { Task } from '~~/src/features/task';
 
 defineProps<{ task: Task }>();
 defineEmits<{ (event: 'toggle', id: string): void }>();

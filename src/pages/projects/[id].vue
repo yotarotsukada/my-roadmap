@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { TaskStatus } from '~~/src/schema';
+import { useFindOneProject, useModifyProject } from '~~/src/features/project';
+import {
+  TaskStatus,
+  useModifyTaskStatus,
+  useRegisterTask,
+} from '~~/src/features/task';
 
 const route = useRoute();
 const id = route.params.id as string;

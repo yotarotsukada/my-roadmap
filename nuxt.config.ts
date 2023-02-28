@@ -3,12 +3,9 @@ export default defineNuxtConfig({
   build: {
     transpile: ['maz-ui'],
   },
-  css: ['ress', 'maz-ui/css/main.css', '@/styles/index.scss'],
+  css: ['ress', 'maz-ui/css/main.css', '~/styles/index.scss'],
   dir: {
     public: '../public',
-  },
-  imports: {
-    dirs: ['composables/**'],
   },
   modules: ['@kevinmarrec/nuxt-pwa'],
   runtimeConfig: {
