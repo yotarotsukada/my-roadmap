@@ -2,6 +2,7 @@
 name: 'vue-component'
 root: 'src'
 output: [
+  'components',
   'components/*',
   'pages',
   'pages/*',
